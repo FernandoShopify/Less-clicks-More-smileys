@@ -84,9 +84,9 @@ document.addEventListener('keydown', function(event) {
         // Update copiedText to include shop_id and invoice_number
         if (shopId) {
             if (invoiceNumber) {
-                copiedText = `**[Internal Dashboard ${shopId} → Invoice Number ${invoiceNumber}]{${pageUrl}}**`;
+                copiedText = `**[Internal Dashboard ${shopId} → Invoice Number ${invoiceNumber}](${pageUrl})**`;
             } else {
-                copiedText = `**[Internal Dashboard ${shopId}]{${pageUrl}}**`;
+                copiedText = `**[Internal Dashboard ${shopId}](${pageUrl})**`;
             }
         }
 
