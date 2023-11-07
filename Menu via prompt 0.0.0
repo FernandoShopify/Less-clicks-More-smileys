@@ -1,0 +1,38 @@
+// ==UserScript==
+// @name        Menu for Links Script
+// @namespace   Violentmonkey Scripts
+// @match       *://*/*
+// @grant       GM_setClipboard
+// @version     1.0
+// @author      -
+// @description 11/7/2023, 11:21:23 AM
+// ==/UserScript==
+
+document.addEventListener('keydown', function(event) {
+    // Check if Control key and T key are pressed simultaneously
+    if (event.ctrlKey && event.key === 't') {
+        event.preventDefault();
+
+        var MD1 = prompt('Format before default link Markdown:');
+        var MD2 = prompt('Format after default link Markdown:');
+        var after_text = prompt('Content after displayed text:');
+
+        var selectedText = window.getSelection().toString().trim();
+        var copiedText = selectedText !== "" ? selectedText : "";
+        var pageUrl = window.location.href;
+
+        var what_will_be_pasted = `${MD1}[${copiedText}${after_text}](${pageUrl})${MD2}`;
+
+        // Copy what_will_be_pasted to the clipboard
+        GM_setClipboard(what_will_be_pasted);
+
+        // Use the entered values and what_will_be_pasted as needed
+        console.log('Format before default link Markdown:', MD1);
+        console.log('Format after default link Markdown:', MD2);
+        console.log('Content after displayed text:', after_text);
+        console.log('Selected Text:', selectedText);
+        console.log('Copied Text:', copiedText);
+        console.log('Page URL:', pageUrl);
+        console.log('What will be pasted:', what_will_be_pasted);
+    }
+});
