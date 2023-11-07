@@ -33,45 +33,45 @@ document.addEventListener('keydown', function(event) {
 
         var languageCode = getLanguageCode(pageUrl);
 
-        switch (languageCode) {
-            case "es":
-                copiedText = `**[${selectedText} (visitar)](${pageUrl})**`;
-                break;
-            case "de":
-                copiedText = `**[${selectedText} (besuchen)](${pageUrl})**`;
-                break;
-            case "fr":
-                copiedText = `**[${selectedText} (visite)](${pageUrl})**`;
-                break;
-            case "hk-en":
-            case "in":
-            case "id":
-            case "ie":
-            case "my":
-            case "nz":
-            case "ng":
-            case "ph":
-            case "sg":
-            case "za":
-            case "uk":
-                copiedText = `**[${selectedText} (visit)](${pageUrl})**`;
-                break;
-            case "jp":
-            case "zh":
-                copiedText = `**[${selectedText} (訪問)](${pageUrl})**`;
-                break;
-            case "nl":
-                copiedText = `**[${selectedText} (bezoek)](${pageUrl})**`;
-                break;
-            case "au":
-                copiedText = `**[${selectedText} (visit)](${pageUrl})**`;
-                break;
-            default:
-                copiedText = `**[${selectedText} (${getLanguageFormat(languageCode)})](${pageUrl})**`;
-                break;
-        }
-
-        if (!copiedText) {
+        if (languageCode) {
+            switch (languageCode) {
+                case "es":
+                    copiedText = `**[${selectedText} (visitar)](${pageUrl})**`;
+                    break;
+                case "de":
+                    copiedText = `**[${selectedText} (besuchen)](${pageUrl})**`;
+                    break;
+                case "fr":
+                    copiedText = `**[${selectedText} (visite)](${pageUrl})**`;
+                    break;
+                case "hk-en":
+                case "in":
+                case "id":
+                case "ie":
+                case "my":
+                case "nz":
+                case "ng":
+                case "ph":
+                case "sg":
+                case "za":
+                case "uk":
+                    copiedText = `**[${selectedText} (visit)](${pageUrl})**`;
+                    break;
+                case "jp":
+                case "zh":
+                    copiedText = `**[${selectedText} (訪問)](${pageUrl})**`;
+                    break;
+                case "nl":
+                    copiedText = `**[${selectedText} (bezoek)](${pageUrl})**`;
+                    break;
+                case "au":
+                    copiedText = `**[${selectedText} (visit)](${pageUrl})**`;
+                    break;
+                default:
+                    copiedText = `**[${selectedText} (${getLanguageFormat(languageCode)})](${pageUrl})**`;
+                    break;
+            }
+        } else {
             if (ticketNumber) {
                 copiedText = `**[Ticket ${ticketNumber}](${pageUrl})**`;
             } else {
@@ -87,7 +87,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 function extractTicketNumber(url) {
-    var regex = /shopify\.zendesk\.com.*\/tickets\/(\d{8})/;
+    var regex = /shopify\.zendesk\.com.*\/tickets\/(\d+)/;
     var match = url.match(regex);
 
     if (match && match[1]) {
