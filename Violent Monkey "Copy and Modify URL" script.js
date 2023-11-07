@@ -17,6 +17,7 @@ document.addEventListener('keydown', function(event) {
         var selectedText = window.getSelection().toString();
         var copiedText;
         var shopId = extractShopId(pageUrl);
+        var invoiceNumber = extractInvoiceNumber(pageUrl);
 
         function getLanguageCode(url) {
             var regex = /https:\/\/www\.shopify\.com\/([a-z-]+)\/blog\//;
@@ -80,10 +81,26 @@ document.addEventListener('keydown', function(event) {
             }
         }
 
-        // Update copiedText to include shop_id
+        // Update copiedText to include shop_id and invoice_number
         if (shopId) {
-            copiedText = `**[Internal Dashboard ${shopId}]{${pageUrl}}**`;
+            if (invoiceNumber) {
+                copiedText = `**[Internal Dashboard ${shopId} → Invoice Number ${invoiceNumber}]{${pageUrl}}**`;
+            } else {
+                copiedText = `**[Internal Dashboard ${shopId}]{${pageUrl}}**`;
+            }
         }
+
+        function extractInvoiceNumber(url) {
+            var regex = /https:\/\/app\.shopify\.com\/services\/internal\/shops\/(\d+)\/invoices\/(\d+)/;
+            var match = url.match(regex);
+
+            if (match && match[2]) {
+                return match[2];
+            }
+
+            return null;
+        }
+
 
         // Copy the modified text to the clipboard using GM_setClipboard
         GM_setClipboard(copiedText);
