@@ -16,6 +16,7 @@ document.addEventListener('keydown', function(event) {
         var ticketNumber = extractTicketNumber(pageUrl);
         var selectedText = window.getSelection().toString();
         var copiedText;
+        var shopId = extractShopId(pageUrl);
 
         function getLanguageCode(url) {
             var regex = /https:\/\/www\.shopify\.com\/([a-z-]+)\/blog\//;
@@ -79,6 +80,11 @@ document.addEventListener('keydown', function(event) {
             }
         }
 
+        // Update copiedText to include shop_id
+        if (shopId) {
+            copiedText = `**[Internal Dashboard ${shopId}]{${pageUrl}}**`;
+        }
+
         // Copy the modified text to the clipboard using GM_setClipboard
         GM_setClipboard(copiedText);
 
@@ -88,6 +94,17 @@ document.addEventListener('keydown', function(event) {
 
 function extractTicketNumber(url) {
     var regex = /shopify\.zendesk\.com.*\/tickets\/(\d+)/;
+    var match = url.match(regex);
+
+    if (match && match[1]) {
+        return match[1];
+    }
+
+    return null;
+}
+
+function extractShopId(url) {
+    var regex = /https:\/\/app\.shopify\.com\/services\/internal\/shops\/(\d+)/;
     var match = url.match(regex);
 
     if (match && match[1]) {
