@@ -7,7 +7,7 @@ Once advanced, we want to asses if it would be best to create a Custom Chrome Ex
 
 To-do:
 
-- [ ] Create original Markdown, the same for every link
+- [x ] Create original Markdown, the same for every link
 - [ ] Have the script recognize when the url is coming from  Help Center, and add "(visit)" in each language to the Markdown
 - [ ] Have the script recognize when the url is coming from  Blog, and add "(visit)" in each language to the Markdown
 - [ ] Have the script recognize when the url is coming from  Shopify Communities
