@@ -18,6 +18,7 @@ document.addEventListener('keydown', function(event) {
         var copiedText;
         var shopId = extractShopId(pageUrl);
         var invoiceNumber = extractInvoiceNumber(pageUrl);
+        var incident_number = extractIncidentNumber(pageUrl);
 
         function getLanguageCode(url) {
             var regex = /https:\/\/www\.shopify\.com\/([a-z-]+)\/blog\//;
@@ -114,6 +115,12 @@ document.addEventListener('keydown', function(event) {
             }
         }
 
+        // Update copiedText to include incident_number
+        if (incident_number) {
+
+                copiedText = `**[Incident ${incident_number}](${pageUrl})**`;
+            }
+
         function extractInvoiceNumber(url) {
             var regex = /https:\/\/app\.shopify\.com\/services\/internal\/shops\/(\d+)\/invoices\/(\d+)/;
             var match = url.match(regex);
@@ -124,6 +131,17 @@ document.addEventListener('keydown', function(event) {
 
             return null;
         }
+
+function extractIncidentNumber(url) {
+    var regex = /incidents\.shopify\.io.*\/incidents\/(\d+)/;
+    var match = url.match(regex);
+
+    if (match && match[1]) {
+        return match[1];
+    }
+
+    return null;
+}
 
 
         // Copy the modified text to the clipboard using GM_setClipboard
