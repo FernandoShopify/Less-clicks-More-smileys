@@ -7,6 +7,8 @@
 // @grant        GM_setClipboard
 // ==/UserScript==
 
+
+
 var languages = ['es', 'en', 'da', 'de', 'fr', 'it', 'nl', 'nb', 'pl', 'pt-BR', 'pt-PT', 'fi', 'sv', 'tr', 'th', 'ja', 'vi', 'zh-CN', 'zh-TW', 'ko', 'cs'];
 
 document.addEventListener('keydown', function(event) {
@@ -19,6 +21,10 @@ document.addEventListener('keydown', function(event) {
         var shopId = extractShopId(pageUrl);
         var invoiceNumber = extractInvoiceNumber(pageUrl);
         var incident_number = extractIncidentNumber(pageUrl);
+        var guruTitle = extractGuruTitle(pageUrl);
+
+
+
 
         function getLanguageCode(url) {
             var regex = /https:\/\/www\.shopify\.com\/([a-z-]+)\/blog\//;
@@ -35,6 +41,8 @@ document.addEventListener('keydown', function(event) {
         }
 
         var languageCode = getLanguageCode(pageUrl);
+
+
 
         if (languageCode) {
             switch (languageCode) {
@@ -101,7 +109,9 @@ document.addEventListener('keydown', function(event) {
         } else {
             if (ticketNumber) {
                 copiedText = `**[Ticket ${ticketNumber}](${pageUrl})**`;
-            } else {
+            } else if (pageUrl && guruTitle) {
+            copiedText = `**[Guru Card: ${guruTitle}](${pageUrl})**`;
+        } else {
                 copiedText = `**[${selectedText}](${pageUrl})**`;
             }
         }
@@ -144,6 +154,9 @@ function extractIncidentNumber(url) {
 }
 
 
+
+
+
         // Copy the modified text to the clipboard using GM_setClipboard
         GM_setClipboard(copiedText);
 
@@ -171,6 +184,19 @@ function extractShopId(url) {
     }
 
     return null;
+}
+
+// Extract Guru Title
+
+function extractGuruTitle(url) {
+    if (url.includes("https://app.getguru.com/card")) {
+        var guruTitle = url.substring(url.lastIndexOf("/") + 1);
+        guruTitle = guruTitle.split("?")[0]; // Remove "?" and anything after that
+        guruTitle = guruTitle.replace(/-/g, " "); // Replace hyphens with blank spaces
+        return guruTitle;
+    } else {
+        return null;
+    }
 }
 
 function manualContent(url, lang) {
