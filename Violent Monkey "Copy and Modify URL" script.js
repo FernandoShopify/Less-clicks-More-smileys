@@ -73,6 +73,30 @@ document.addEventListener('keydown', function(event) {
                     copiedText = `**[${selectedText} (${getLanguageFormat(languageCode)})](${pageUrl})**`;
                     break;
             }
+        } else if (pageUrl.includes("https://community.shopify.com")) {
+            var spanElement = document.querySelector('span[itemprop="name"]');
+            if (spanElement) {
+                var spanText = spanElement.textContent.trim();
+                if (spanText === "Comunidad de Shopify (ES)") {
+                    copiedText = `**[${selectedText} (visitar)](${pageUrl})**`;
+                } else if (spanText === "Shopify Community") {
+                    copiedText = `**[${selectedText} (visit)](${pageUrl})**`;
+                } else if (spanText === "Communauté Shopify (FR)") {
+                    copiedText = `**[${selectedText} (visite)](${pageUrl})**`;
+                } else if (spanText === "Shopify Community Japan (JP)") {
+                    copiedText = `**[${selectedText} (訪問)](${pageUrl})**`;
+                } else if (spanText === "Shopify-Community (DE)") {
+                    copiedText = `**[${selectedText} (besuchen)](${pageUrl})**`;
+                } else if (spanText === "Community di Shopify (IT)") {
+                    copiedText = `**[${selectedText} (visita)](${pageUrl})**`;
+                } else if (spanText === "Shopify Community (NL)") {
+                    copiedText = `**[${selectedText} (bezoek)](${pageUrl})**`;
+                } else if (spanText === "Comunidade da Shopify (PT-BR)") {
+                    copiedText = `**[${selectedText} (visita)](${pageUrl})**`;
+                } else if (spanText === "Shopify Community (zh-CN)") {
+                    copiedText = `**[${selectedText} (访问)](${pageUrl})**`;
+                }
+            }
         } else {
             if (ticketNumber) {
                 copiedText = `**[Ticket ${ticketNumber}](${pageUrl})**`;
