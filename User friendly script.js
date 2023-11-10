@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-//Testing update 1
+//Testing update 2
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
