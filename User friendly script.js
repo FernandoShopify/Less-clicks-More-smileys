@@ -4,7 +4,7 @@
 // @match       *://*/*
 // @grant       none
 // @version     1.2
-// @author      -
+// @author      Fernando Galvez-Luis
 // @description 11/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
 // ==/UserScript==
