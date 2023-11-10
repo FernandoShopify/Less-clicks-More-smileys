@@ -76,64 +76,44 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
 
 
-    // 1 - Check for ZenDesk url and format: Ticket XXXXXX
-
-    const ticketNumber = extractTicketNumber(pageUrl);
-
-    if (ticketNumber) { fullFormat = `${MD1}[Ticket ${ticketNumber}](${pageUrl})${MD2}`; }
-
-
-
-
-
-    //2 - Check for Merchant Internal Dashboard - Shop ID  within url and format: Internal Dashboard XXXXXXX
-
+// 1 - Check for ZenDesk url and format: Ticket XXXXXX
+const ticketNumber = extractTicketNumber(pageUrl);
+if (ticketNumber) {
+  fullFormat = `${MD1}[Ticket ${ticketNumber}](${pageUrl})${MD2}`;
+} else {
+  // 3 - Check for Invoice Number from: Merchant Internal → Invoice Number
+  const invoiceNumber = extractInvoiceNumber(pageUrl);
+const shopId = extractShopId(pageUrl);
+  if (invoiceNumber) {
+    fullFormat = `${MD1}[Internal Dashboard ${shopId} → Invoice Number ${invoiceNumber}](${pageUrl})${MD2}`;
+  } else {
+    // 2 - Check for Merchant Internal Dashboard - Shop ID within url and format: Internal Dashboard XXXXXXX
     const shopId = extractShopId(pageUrl);
-
-    if (shopId) {  fullFormat = `${MD1}[Internal Dashboard ${shopId}](${pageUrl})${MD2}`; }
-
-
-
-
-
-    // 3 - Check for Invoice Number from : Merchant Internal → Invoice Number
-
-    const invoiceNumber = extractInvoiceNumber(pageUrl);
-
-    if (invoiceNumber) {  fullFormat = `${MD1}[Internal Dashboard ${shopId} → ${invoiceNumber}](${pageUrl})${MD2}`; }
-
-
-
-
-
-    // 4 - Check for Guru Card Titles
-
-    const guruTitle = extractGuruTitle(pageUrl);
-
-    if (guruTitle) { fullFormat = `${MD1}[${guruTitle}](${pageUrl})${MD2}`; }
-
-
-
-
-
-    // 5 - Check for Incident Number
-
-    const incident_number = extractIncidentNumber(pageUrl);
-
-    if (incident_number) { fullFormat = `${MD1}[Incident ${incident_number}](${pageUrl})${MD2}`; }
-
-
-
-
-
-    // This is the default on any other site, it will apply only the format defined with MD1 and MD2:
-
-     /* Returns → */  fullFormat = `${MD1}[${Selected_Text}](${pageUrl})${MD2}`;
+    if (shopId) {
+      fullFormat = `${MD1}[Internal Dashboard ${shopId}](${pageUrl})${MD2}`;
+    } else {
+      // 4 - Check for Guru Card Titles
+      const guruTitle = extractGuruTitle(pageUrl);
+      if (guruTitle) {
+        fullFormat = `${MD1}[Guru Card: ${guruTitle}](${pageUrl})${MD2}`;
+      } else {
+        // 5 - Check for Incident Number
+        const incident_number = extractIncidentNumber(pageUrl);
+        if (incident_number) {
+          fullFormat = `${MD1}[Incident ${incident_number}](${pageUrl})${MD2}`;
+        } else {
+          // This is the default on any other site, it will apply only the format defined with MD1 and MD2
+          fullFormat = `${MD1}[${Selected_Text}](${pageUrl})${MD2}`;
+        }
+      }
+    }
+  }
+}
 
 
     // Copy the modified text to the clipboard using GM_setClipboard
 
-    GM_setClipboard(fullFormat);
+    return GM_setClipboard(fullFormat);
 
     event.preventDefault();
 
@@ -184,7 +164,7 @@ function extractInvoiceNumber(url) {
 // Extract Guru Title
 
 function extractGuruTitle(url) {
-    if (url.includes("https://app.getguru.com/card")) {
+    if (url.includes("https://app.getguru.com/card/")) {
         var guruTitle = url.substring(url.lastIndexOf("/") + 1);
         guruTitle = guruTitle.split("?")[0]; // Remove "?" and anything after that
         guruTitle = guruTitle.replace(/-/g, " "); // Replace hyphens with blank spaces
