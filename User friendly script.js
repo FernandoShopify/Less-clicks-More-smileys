@@ -3,14 +3,14 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.2
+// @version     1.3
 // @author      Fernando Galvez-Luis
 // @description 11/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
 // ==/UserScript==
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-//Testing update 2
+//Testing update "@version"
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
