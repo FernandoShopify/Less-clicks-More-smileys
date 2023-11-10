@@ -3,14 +3,14 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.3
+// @version     1.4
 // @author      Fernando Galvez-Luis
 // @description 11/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
 // ==/UserScript==
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-//Testing update "@version"
+//Testing update "@version" and changing settings in Violent Monkey settings tab removed the update and download fields
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
