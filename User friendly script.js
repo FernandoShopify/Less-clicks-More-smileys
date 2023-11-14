@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4
+// @version     1.4.1
 // @author      Fernando Galvez-Luis
 // @description 11/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
@@ -66,15 +66,11 @@ console.log("triggered")
 
     let Ending_Part = "";
 
-
     const pageUrl = window.location.href;
 
     let Selected_Text = window.getSelection().toString();
 
     let fullFormat;
-
-
-
 
 
     // 1 - Check for ZenDesk url and format: Ticket XXXXXX
@@ -101,7 +97,7 @@ console.log("triggered")
 
     const invoiceNumber = extractInvoiceNumber(pageUrl);
 
-    if (invoiceNumber) {  fullFormat = `${MD1}[Internal Dashboard ${shopId} → ${invoiceNumber}](${pageUrl})${MD2}`; }
+    if (invoiceNumber) {  fullFormat = `${MD1}[Int. Dash. ${shopId} → Invoice: ${invoiceNumber}](${pageUrl})${MD2}`; }
 
 
 
@@ -122,6 +118,15 @@ console.log("triggered")
     const incident_number = extractIncidentNumber(pageUrl);
 
     if (incident_number) { fullFormat = `${MD1}[Incident ${incident_number}](${pageUrl})${MD2}`; }
+
+
+
+
+    // 6 - Check for Indentity Account Number
+
+    const account_Number = extractIdentityAccountNumber(pageUrl);
+
+    if (account_Number) { fullFormat = `${MD1}[Identity Account → ${account_Number}](${pageUrl})${MD2}`; }
 
 
 
@@ -208,60 +213,15 @@ function extractIncidentNumber(url) {
     return null;
 }
 
-/*
+// Extract Identity Account Number
 
+function extractIdentityAccountNumber(url) {
+  let regex = /\/accounts\/(\d+)(?=\/|$)/;
+  let match = url.match(regex);
 
-// Language detection:
+  if (match && match[1]) {
+    return match[1];
+  }
 
-const language_list = {
-  spanish_site: ["Comunidad de Shopify (ES)", "/es/"],
-  danish_site: ["/d/a"],
-  german_site: ["Shopify-Community (DE)", "/de/"],
-  french_site: ["Communauté Shopify (FR)", "/fr/"],
-  italian_site: ["Community di Shopify (IT)", "/it/"],
-  netherland_site: ["Shopify Community (NL)", "/nl/"],
-  norwegian_site: ["/nb/"],
-  polish_site: ["/pl/"],
-  brazil_site: ["Comunidade da Shopify (PT-BR)", "/pt-BR/", "/br/"],
-  portugal_site: ["/pt-PT/"],
-  finnish_site: ["fi"],
-  swedish_site: ["sv"],
-  turkish_site: ["/tr/"],
-  thailand_site: ["/th/"],
-  japan_site: ["Shopify Community Japan (JP)", "/ja/", "/jp/"],
-  vietnam_site: ["/vi/"],
-  chineseSimplified_site: ["Shopify Community (zh-CN)", "/zh-CN/", "/zh/"],
-  chineseTraditional_site: ["/zh-TW/"],
-  korean_site: ["/ko/"],
-  czechRepublic_site: ["/cs/"],
-  english_site: ["Shopify Community", "/en/", "/au/", "/ca/", "/in/", "/id/", "/ie/", "/my/", "/nz/",
-    "/ng/", "/p/h", "/sg/", "/za/", "/uk/"]
-};
-
-// Insert content that will show  per language if you use language content for Ending_Part:
-
-let spanish = "";
-let danish = "";
-let german = "";
-let french = "";
-let italian = "";
-let netherland = "";
-let norwegian = "";
-let polish = "";
-let brazil = "";
-let portugal = "";
-let finnish = "";
-let swedish = "";
-let turkish = "";
-let thailand = "";
-let japan = "";
-let vietnam = "";
-let chineseSimplified = "";
-let chineseTraditional = "";
-let korean = "";
-let czechRepublic = "";
-let english = "";
-
-
-
-*/
+  return null;
+}
