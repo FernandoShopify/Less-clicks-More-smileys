@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-//Testing update "@version" and changing settings in Violent Monkey settings tab removed the update and download fields
+//version     1.4.1 Latest addition to script: Identity Account Number 
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
