@@ -3,14 +3,15 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.1
+// @version     1.4.2
 // @author      Fernando Galvez-Luis
 // @description 11/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
 // ==/UserScript==
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-//version     1.4.1 Latest addition to script: Identity Account Number 
+
+//Latest version feature (version     1.4.2): Added Incident Title along with Incident Number
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
@@ -21,27 +22,6 @@ const MD1 = "**";
 const MD2 = "**";
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
-
-
-
-/* The contents of [] will have 3 parts:
-
-- Beginning_Part:     Optional, will be the same for every link.
-
-
-- Selected_Text:      Mandatory, this part WILL BE FORMATTED FOR YOU, using either the Text you selected while copying,
-                      or Guru Card Titles, Internal Dashboard Shop IDs / Invoices IDs, Issue Numbers, Zendesk Ticket Numbers,
-
-- Ending_Part:        Optional, this part will be used to add content based on the language of the resource.
-                      For example, when I copy a guide from the Help Center in English I want to display **[Connecting Domains (visit link here)](actual-link)**,
-                      but if the guide comes from the Help Center in Spanish, I want to display **[Conectar Dominios (visitar enlace)](actual-link)**
-
-                      For multiple language options, complete the set up at the footer of this code (pending).
-*/
-
-
-
-
 
 
 
@@ -113,11 +93,14 @@ console.log("triggered")
 
 
 
-    // 5 - Check for Incident Number
+    // 5 - Check for Incident Number and Title of Incident
 
-    const incident_number = extractIncidentNumber(pageUrl);
+    const incidentNumber = extractIncidentNumber(pageUrl);
 
-    if (incident_number) { fullFormat = `${MD1}[Incident ${incident_number}](${pageUrl})${MD2}`; }
+    if (incidentNumber) {     const incidentTitle = extractIncidentTitle(pageUrl);
+
+      fullFormat = `${MD1}[Incident ${incidentNumber}: ${incidentTitle}](${pageUrl})${MD2}`;    }
+
 
 
 
@@ -211,6 +194,15 @@ function extractIncidentNumber(url) {
     }
 
     return null;
+}
+
+// Extract Incident Title
+function extractIncidentTitle() {
+  const incidentElement = document.querySelector('h1.ui-title-bar__title');
+  if (incidentElement) {
+    return incidentElement.textContent.trim();
+  }
+  return null;
 }
 
 // Extract Identity Account Number
