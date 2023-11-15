@@ -5,7 +5,7 @@
 // @grant       none
 // @version     1.4.3
 // @author      Fernando Galvez-Luis
-// @description 11/8/2023, 5:09:44 PM
+// @description Started project circa Nov/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
 // ==/UserScript==
 
@@ -107,15 +107,15 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     // 7 - Optional: Add Help Center Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-    // Spanish - Check for Spanish Help Center Resource:
+    /* Some Merchants are not as tech savvy as you'd expect, sometimes it's worth adding some clafication like "click here", that's added in the optional Help Center
+     Languages settings down below.     If you'd like to add that to the Languages you support, copy the code for that Language and paste it within this section
+     of the code blow this comment.    Feel free to change the text "click here" for whatever it's culturaly appropriate for that Language.
 
-    const HC_text_Spanish = " (leer aquí)";
-
-    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
+     Below you can see an example for the English Language (remove it if you don't want to use this part): */
 
     // English - Check for English Help Center Resource:
 
-    const HC_text_English = " (read here)";
+    const HC_text_English = " (click here)";
 
     if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
 
