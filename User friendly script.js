@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.2
+// @version     1.4.3
 // @author      Fernando Galvez-Luis
 // @description 11/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
@@ -11,7 +11,7 @@
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.4.2): Added Incident Title along with Incident Number
+//Latest version feature (version     1.4.3): Added Optional format for extra text in Help Center links for each language
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
@@ -37,14 +37,6 @@ document.addEventListener('keydown', function(event) { //open evenListener code
   // Check if Key1 and Key2 are pressed simultaneously
 
   if (Key1 && Key2) { //open code for if Key1 && Key2 are pressed
-
-console.log("triggered")
-
-    // Define the contents of Beginning_Part and Ending_Part:
-
-    let Beginning_Part = "";
-
-    let Ending_Part = "";
 
     const pageUrl = window.location.href;
 
@@ -110,6 +102,25 @@ console.log("triggered")
     const account_Number = extractIdentityAccountNumber(pageUrl);
 
     if (account_Number) { fullFormat = `${MD1}[Identity Account → ${account_Number}](${pageUrl})${MD2}`; }
+
+
+
+    // 7 - Optional: Add Help Center Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Spanish - Check for Spanish Help Center Resource:
+
+    const HC_text_Spanish = " (leer aquí)";
+
+    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
+
+    // English - Check for English Help Center Resource:
+
+    const HC_text_English = " (read here)";
+
+    if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
+
+
+   // Optional: Add Help Center Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
 
 
@@ -217,3 +228,171 @@ function extractIdentityAccountNumber(url) {
 
   return null;
 }
+
+
+/* HELP CENTER custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Help Center Start)
+
+
+
+    // Spanish - Check for Spanish Help Center Resource:
+
+    const HC_text_Spanish = " (clic aquí)";
+
+    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+
+    // English - Check for English Help Center Resource:
+
+    const HC_text_English = " (click here)";
+
+    if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Danish - Check for Danish Help Center Resource:
+
+    const HC_text_Danish = " (klik her)";
+
+    if (pageUrl.includes("https://help.shopify.com/da/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Danish}](${pageUrl})${MD2}`;   }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // German - Check for German Help Center Resource:
+
+    const HC_text_German = " (klicken Sie hier)";
+
+    if (pageUrl.includes("https://help.shopify.com/de/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_German}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Czech Republic - Check for Czech Republic Help Center Resource:
+
+    const HC_text_Czech_Republic = " (klikněte zde)";
+
+    if (pageUrl.includes("https://help.shopify.com/cs/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Czech_Republic}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // French - Check for Frech Help Center Resource:
+
+    const HC_text_French = " (Cliquez ici)";
+
+    if (pageUrl.includes("https://help.shopify.com/fr/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_French}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Italian - Check for Italian Help Center Resource:
+
+    const HC_text_Italian = " (clicca qui)";
+
+    if (pageUrl.includes("https://help.shopify.com/it/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Italian}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Netherlands - Check for Netherlands Help Center Resource:
+
+    const HC_text_Netherlands = " (Klik hier)";
+
+    if (pageUrl.includes("https://help.shopify.com/nl/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Netherlands}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Norwegian - Check for Norwegian Help Center Resource:
+
+    const HC_text_Norwegian = " (Klikk her)";
+
+    if (pageUrl.includes("https://help.shopify.com/nb/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Norwegian}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Polish - Check for Polish Help Center Resource:
+
+    const HC_text_Polish = " (Kliknij tutaj)";
+
+    if (pageUrl.includes("https://help.shopify.com/pl/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Polish}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Portuguese BR and PT - Check for Portuguese Help Center Resource:
+
+    const HC_text_Portuguese = " (Clique aqui)";
+
+    if (pageUrl.includes("https://help.shopify.com/pt-BR/" || "https://help.shopify.com/pt-PT/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Portuguese}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Finnish - Check for Finnish Help Center Resource:
+
+    const HC_text_Finnish = " (Klikkaa tästä)";
+
+    if (pageUrl.includes("https://help.shopify.com/fi/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Finnish}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Swedish - Check for Swedish Help Center Resource:
+
+    const HC_text_Swedish = " (Klicka här)";
+
+    if (pageUrl.includes("https://help.shopify.com/sv/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Swedish}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Turkish - Check for Turkish Help Center Resource:
+
+    const HC_text_Turkish = " (buraya tıklayın)";
+
+    if (pageUrl.includes("https://help.shopify.com/tr/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Turkish}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Thailand - Check for Thailand Help Center Resource:
+
+    const HC_text_Thailand = " (คลิกที่นี่)";
+
+    if (pageUrl.includes("https://help.shopify.com/th/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Thailand}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Japanese - Check for Japanese Help Center Resource:
+
+    const HC_text_Japanese = " (ここをクリック)";
+
+    if (pageUrl.includes("https://help.shopify.com/ja/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Japanese}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Vietnamese - Check for Vietnamese Help Center Resource:
+
+    const HC_text_Vietnamese = " (bấm vào đây)";
+
+    if (pageUrl.includes("https://help.shopify.com/vi/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Vietnamese}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Korean - Check for Korean Help Center Resource:
+
+    const HC_text_Korean = " (여기를 클릭하세요)";
+
+    if (pageUrl.includes("https://help.shopify.com/ko/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Korean}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Chinese Simplified - Check for Chinese Simplified Help Center Resource:
+
+    const HC_text_Chinese_Simplified = " (点击这里)";
+
+    if (pageUrl.includes("https://help.shopify.com/zh-CN/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Chinese_Simplified}](${pageUrl})${MD2}`;   }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Chinese Traditional - Check for Chinese Traditional Help Center Resource:
+
+    const HC_text_Chinese_Traditional = " (點這裡)";
+
+    if (pageUrl.includes("https://help.shopify.com/zh-TW/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Chinese_Traditional}](${pageUrl})${MD2}`;   }
+
+
+
+ HELP CENTER custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Help Center End) */
