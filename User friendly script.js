@@ -3,15 +3,17 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.4
+// @version     1.4.5
 // @author      Fernando Galvez-Luis
-// @description Started project circa Nov/8/2023, 5:09:44 PM
+// @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant        GM_setClipboard
 // ==/UserScript==
 
+// Started project circa Nov/8/2023, 5:09:44 PM
+
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.4.4): Added Optional format for extra text in SHOPIFY COMMUNITIES for each language
+//Latest version feature (version     1.4.5): Simplified code and instructions. Added option for Blogs pages and list of Blogs urls at bottom.
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before (MD1 will be the before) and after (MD2 will be the after) the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
@@ -107,42 +109,66 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     // 7 - Optional: Add Help Center Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-    /* Some Merchants are not as tech savvy as you'd expect, sometimes it's worth adding some clafication like "click here", that's added in the optional Help Center
-     Languages settings down below.     If you'd like to add that to the Languages you support, copy the code for that Language and paste it within this section
-     of the code blow this comment.    Feel free to change the text "click here" for whatever it's culturaly appropriate for that Language.
+    /* Some Merchants are not as tech savvy as you'd expect, sometimes it's worth adding some clafication like "click here".     If you'd like to add that to the Languages you support, copy /pase
+     the code for that Language and modify it for your use case.
+
+     Remember to change the HC_text_English to the Language of your preference and update the url inside pageUrl.includes("")
 
      Below you can see an example for the English Language (remove it if you don't want to use this part): */
 
     // English - Check for English Help Center Resource:
 
-    const HC_text_English = " (click here)";
+    const HC_text_English = ""; // If I write inside the quotes " (clic here)" what the Merchant will see for the link is: The text I selected (click here)
 
     if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
 
-    // Spanish - Check for Spanish Help Center Resource:
-
-    const HC_text_Spanish = " (clic aquí)";
-
-    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
-
-
    // Optional: Add Help Center Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+
+
+
 
     // 8 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
 
     /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
 
+    //Remember to change the Language at .textContent.trim() === ""
+
+    //Languages available for Shopify Communities: ["English", "Français", Japanese → "日本語", German → "Deutsch", "Italiano", "Nederlands", "Português do Brasil", Chinese → "简体中文"]
+
+    // Spanish - Check for Spanish Shopify Communities Resource:
+
+    const SC_text_Spanish = " (clic aqui)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Español")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+
+   // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
 
 
 
-   // Optional: Add Shopify Communities Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
+
+    // 9 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
+
+    /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
+
+    //Remember to change the url inside the quotes at pageUrl.includes(""). Full list of Blogs url at bottom of document
+
+    // Spanish - Check for Spanish Shopify Blogs Resource:
+
+    const Blog_text_Spanish = " (clic aqui)";
+
+    if (pageUrl.includes("https://community.shopify.com"))    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+
+   // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
 
 
 
 
-    // This is the default on any other site, it will apply only the format defined with MD1 and MD2:
+    // This is the default on any other site, it will apply only the format defined with MD1 and MD2, you can modify it to your needs/liking:
 
     if (typeof fullFormat === 'undefined') { fullFormat = `${MD1}[${Selected_Text}](${pageUrl})${MD2}`; }
 
@@ -245,269 +271,28 @@ function extractIdentityAccountNumber(url) {
   return null;
 }
 
-
-/* HELP CENTER custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Help Center Start)
-
-
-
-    // Spanish - Check for Spanish Help Center Resource:
-
-    const HC_text_Spanish = " (clic aquí)";
-
-    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-
-    // English - Check for English Help Center Resource:
-
-    const HC_text_English = " (click here)";
-
-    if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Danish - Check for Danish Help Center Resource:
-
-    const HC_text_Danish = " (klik her)";
-
-    if (pageUrl.includes("https://help.shopify.com/da/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Danish}](${pageUrl})${MD2}`;   }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // German - Check for German Help Center Resource:
-
-    const HC_text_German = " (klicken Sie hier)";
-
-    if (pageUrl.includes("https://help.shopify.com/de/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_German}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Czech Republic - Check for Czech Republic Help Center Resource:
-
-    const HC_text_Czech_Republic = " (klikněte zde)";
-
-    if (pageUrl.includes("https://help.shopify.com/cs/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Czech_Republic}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // French - Check for Frech Help Center Resource:
-
-    const HC_text_French = " (Cliquez ici)";
-
-    if (pageUrl.includes("https://help.shopify.com/fr/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_French}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Italian - Check for Italian Help Center Resource:
-
-    const HC_text_Italian = " (clicca qui)";
-
-    if (pageUrl.includes("https://help.shopify.com/it/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Italian}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Netherlands - Check for Netherlands Help Center Resource:
-
-    const HC_text_Netherlands = " (Klik hier)";
-
-    if (pageUrl.includes("https://help.shopify.com/nl/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Netherlands}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Norwegian - Check for Norwegian Help Center Resource:
-
-    const HC_text_Norwegian = " (Klikk her)";
-
-    if (pageUrl.includes("https://help.shopify.com/nb/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Norwegian}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Polish - Check for Polish Help Center Resource:
-
-    const HC_text_Polish = " (Kliknij tutaj)";
-
-    if (pageUrl.includes("https://help.shopify.com/pl/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Polish}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Portuguese BR and PT - Check for Portuguese Help Center Resource:
-
-    const HC_text_Portuguese = " (Clique aqui)";
-
-    if (pageUrl.includes("https://help.shopify.com/pt-BR/" || "https://help.shopify.com/pt-PT/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Portuguese}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Finnish - Check for Finnish Help Center Resource:
-
-    const HC_text_Finnish = " (Klikkaa tästä)";
-
-    if (pageUrl.includes("https://help.shopify.com/fi/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Finnish}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Swedish - Check for Swedish Help Center Resource:
-
-    const HC_text_Swedish = " (Klicka här)";
-
-    if (pageUrl.includes("https://help.shopify.com/sv/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Swedish}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Turkish - Check for Turkish Help Center Resource:
-
-    const HC_text_Turkish = " (buraya tıklayın)";
-
-    if (pageUrl.includes("https://help.shopify.com/tr/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Turkish}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Thailand - Check for Thailand Help Center Resource:
-
-    const HC_text_Thailand = " (คลิกที่นี่)";
-
-    if (pageUrl.includes("https://help.shopify.com/th/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Thailand}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Japanese - Check for Japanese Help Center Resource:
-
-    const HC_text_Japanese = " (ここをクリック)";
-
-    if (pageUrl.includes("https://help.shopify.com/ja/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Japanese}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Vietnamese - Check for Vietnamese Help Center Resource:
-
-    const HC_text_Vietnamese = " (bấm vào đây)";
-
-    if (pageUrl.includes("https://help.shopify.com/vi/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Vietnamese}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Korean - Check for Korean Help Center Resource:
-
-    const HC_text_Korean = " (여기를 클릭하세요)";
-
-    if (pageUrl.includes("https://help.shopify.com/ko/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Korean}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Chinese Simplified - Check for Chinese Simplified Help Center Resource:
-
-    const HC_text_Chinese_Simplified = " (点击这里)";
-
-    if (pageUrl.includes("https://help.shopify.com/zh-CN/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Chinese_Simplified}](${pageUrl})${MD2}`;   }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Chinese Traditional - Check for Chinese Traditional Help Center Resource:
-
-    const HC_text_Chinese_Traditional = " (點這裡)";
-
-    if (pageUrl.includes("https://help.shopify.com/zh-TW/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Chinese_Traditional}](${pageUrl})${MD2}`;   }
-
-
-
-HELP CENTER custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Help Center End) */
-
-
-
-
-/* SHOPIFY COMMUNITIES custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Shopify Communities Start)
-
-    // Spanish - Check for Spanish Shopify Communities Resource:
-
-    const SC_text_Spanish = " (clic aqui)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Español")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // English - Check for English Shopify Communities Resource:
-
-    const SC_text_English = " (click here)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "English")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_English}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // French - Check for French Shopify Communities Resource:
-
-    const SC_text_French = " (Cliquez ici)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Français")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_French}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Japanese - Check for Japanese Shopify Communities Resource:
-
-    const SC_text_Japanese = " (ここをクリック)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "日本語")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Japanese}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // German - Check for German Shopify Communities Resource:
-
-    const SC_text_German = " (klicken Sie hier)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Deutsch")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_German}](${pageUrl})${MD2}`;  }
-
-  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-  // Italian - Check for Italian Shopify Communities Resource:
-
-    const SC_text_Italian = " (clicca qui)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Italiano")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Italian}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Netherlands - Check for Netherlands Shopify Communities Resource:
-
-    const SC_text_Netherlands = " (Klik hier)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Nederlands")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Netherlands}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-    // Portuguese - Check for Portuguese Shopify Communities Resource:
-
-    const SC_text_Portuguese = " (Clique aqui)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Português do Brasil")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Portuguese}](${pageUrl})${MD2}`;  }
-
-    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
-
-     // Chinese - Check for Chinese Shopify Communities Resource:
-
-    const SC_text_Chinese = " (点击这里)";
-
-    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "简体中文")
-
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Chinese}](${pageUrl})${MD2}`;  }
-
-
-
-
-
-SHOPIFY COMMUNITIES custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Shopify Communities End) */
+/*  Shopify Blogs url (start)
+
+Australia url:            "https://www.shopify.com/au/blog/"
+English url:              "https://www.shopify.com/blog/"
+Netherlands url:          "https://www.shopify.com/nl/blog/"
+Brasil url:               "https://www.shopify.com/br/blog/"
+Canad url:                "https://www.shopify.com/ca/blog/"
+Español Int. url:         "https://www.shopify.com/es/blog/"
+German url:               "https://www.shopify.com/de/blog/"
+France url:               "https://www.shopify.com/fr/blog/"
+Hong Kong url:            "https://www.shopify.com/hk-en/blog/"
+India url:                "https://www.shopify.com/in/blog/"
+Indonesia url:            "https://www.shopify.com/id/blog/"
+Ireland url:              "https://www.shopify.com/ie/blog/"
+Malaysia url:             "https://www.shopify.com/my/blog/"
+New Zealand url:          "https://www.shopify.com/nz/blog/"
+Nigeria url:              "https://www.shopify.com/ng/blog/"
+Philippines url:          "https://www.shopify.com/ph/blog/"
+Singapore url:            "https://www.shopify.com/sg/blog/"
+South Africa url:         "https://www.shopify.com/za/blog/"
+United Kingdom:           "https://www.shopify.com/uk/blog/"
+Japan url:                "https://www.shopify.com/jp/blog/"
+Chinese Simplified url:   "https://www.shopify.com/zh/blog/"
+
+Shopify Blogs url (end)  */
