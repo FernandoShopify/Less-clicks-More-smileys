@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.3
+// @version     1.4.4
 // @author      Fernando Galvez-Luis
 // @description Started project circa Nov/8/2023, 5:09:44 PM
 // @grant        GM_setClipboard
@@ -11,9 +11,9 @@
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.4.3): Added Optional format for extra text in Help Center links for each language
+//Latest version feature (version     1.4.4): Added Optional format for extra text in SHOPIFY COMMUNITIES for each language
 
-//Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before and after the Mardown as such: **[]()**
+//Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before (MD1 will be the before) and after (MD2 will be the after) the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
 const MD1 = "**";
 
@@ -119,8 +119,24 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
 
+    // Spanish - Check for Spanish Help Center Resource:
+
+    const HC_text_Spanish = " (clic aquí)";
+
+    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
+
 
    // Optional: Add Help Center Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // 8 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
+
+    /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
+
+
+
+
+
+   // Optional: Add Shopify Communities Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
 
 
@@ -395,4 +411,103 @@ function extractIdentityAccountNumber(url) {
 
 
 
- HELP CENTER custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Help Center End) */
+HELP CENTER custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Help Center End) */
+
+
+
+
+/* SHOPIFY COMMUNITIES custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Shopify Communities Start)
+
+    // Spanish - Check for Spanish Shopify Communities Resource:
+
+    const SC_text_Spanish = " (clic aqui)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Español")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // English - Check for English Shopify Communities Resource:
+
+    const SC_text_English = " (click here)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "English")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_English}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // French - Check for French Shopify Communities Resource:
+
+    const SC_text_French = " (Cliquez ici)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Français")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_French}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Japanese - Check for Japanese Shopify Communities Resource:
+
+    const SC_text_Japanese = " (ここをクリック)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "日本語")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Japanese}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // German - Check for German Shopify Communities Resource:
+
+    const SC_text_German = " (klicken Sie hier)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Deutsch")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_German}](${pageUrl})${MD2}`;  }
+
+  —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+  // Italian - Check for Italian Shopify Communities Resource:
+
+    const SC_text_Italian = " (clicca qui)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Italiano")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Italian}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Netherlands - Check for Netherlands Shopify Communities Resource:
+
+    const SC_text_Netherlands = " (Klik hier)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Nederlands")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Netherlands}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+    // Portuguese - Check for Portuguese Shopify Communities Resource:
+
+    const SC_text_Portuguese = " (Clique aqui)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Português do Brasil")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Portuguese}](${pageUrl})${MD2}`;  }
+
+    —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+     // Chinese - Check for Chinese Shopify Communities Resource:
+
+    const SC_text_Chinese = " (点击这里)";
+
+    if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "简体中文")
+
+    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Chinese}](${pageUrl})${MD2}`;  }
+
+
+
+
+
+SHOPIFY COMMUNITIES custom links per language: —-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—------- (Shopify Communities End) */
