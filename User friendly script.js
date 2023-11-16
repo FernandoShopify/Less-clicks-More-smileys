@@ -107,6 +107,8 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
 
 
+
+
     // 7 - Optional: Add Help Center Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
     /* Some Merchants are not as tech savvy as you'd expect, sometimes it's worth adding some clafication like "click here".     If you'd like to add that to the Languages you support, copy /pase
@@ -144,13 +146,13 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
 
-   // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
+   // Optional: Add Shopify Communities Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
 
 
 
 
-    // 9 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
+    // 9 - Optional: Add Shopify Blogs Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
 
     /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
 
