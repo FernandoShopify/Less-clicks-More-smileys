@@ -190,7 +190,7 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     const Blog_text_Spanish = " (clic aqui)";
 
-    if (pageUrl.includes("https://community.shopify.com"))    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+    if (pageUrl.includes("https://www.shopify.com/es/blog"))    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
 
    // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
