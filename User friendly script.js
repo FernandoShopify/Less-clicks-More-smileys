@@ -126,12 +126,6 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
 
-    // Spanish - Check for Spanish Help Center Resource:
-
-    const HC_text_Spanish = " (clic aquí)"; // Here is the one I actually use, keep it, delete it or modify it, your call.
-
-    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
-
    // Optional: Add Help Center Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
 
