@@ -19,7 +19,7 @@
 
 // Example for main channels message:     Slack #Support-SSA     || Example thread:     Slack #Support-SSA → Thread
 
-//Latest version feature (version     1.4.6): Recognizes and returns Mechant Frustration Number and Title
+//Previous version feature (version     1.4.6): Recognizes and returns Mechant Frustration Number and Title
 
 //Previous version feature (version     1.4.5): Simplified code and instructions. Added option for Blogs pages and list of Blogs urls at bottom.
 
@@ -54,16 +54,10 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     let fullFormat;
 
-    let slackLink = '';
 
-    // Check if the window object contains "https://app.slack.com/client/"
-    if (pageUrl.includes("https://app.slack.com/client/")) {
-      slackLink = findAnchorElement(window.getSelection().anchorNode.parentElement);
-    }
+    // 0 - Check if it's a Slack Conversation
 
-
-    // 0 - Check for Slack conversations
-    if (slackLink) {  fullFormat = `${MD1}[Slack Conversation](${slackLink})${MD2}`;    }
+    if (pageUrl.includes("https://app.slack.com/client/")) {   fullFormat = `${MD1}[Slack Conversation](${getSlackConversationLink()})${MD2}`;    }
 
 
 
@@ -190,7 +184,7 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     const Blog_text_Spanish = " (clic aqui)";
 
-    if (pageUrl.includes("https://www.shopify.com/es/blog"))    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+    if (pageUrl.includes("https://www.shopify.com/es/blog"))    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${getSlackConversationLink()})${MD2}`;  }
 
    // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
@@ -337,44 +331,20 @@ function extractMerchantFrustrationTitle() {
 }
 
 // Extract Slack URL
-function findAnchorElement(element) {
-  if (element.tagName === 'A') {
-    slackLink = element.getAttribute('href');
-    console.log('Slack Link:', slackLink);
-    return slackLink;
-  } else {
-    let sibling = element.previousElementSibling;
-    while (sibling) {
-      if (sibling.tagName === 'A') {
-        slackLink = sibling.getAttribute('href');
-        console.log('Slack Link:', slackLink);
-        return slackLink;
-      }
-      sibling = sibling.previousElementSibling;
-    }
 
-    const parent = element.parentElement;
-    if (parent && parent.tagName === 'A') {
-      slackLink = parent.getAttribute('href');
-      console.log('Slack Link:', slackLink);
-      return slackLink;
-    }
+function getSlackConversationLink()
 
-    let nextSibling = element.nextElementSibling;
-    while (nextSibling) {
-      if (nextSibling.tagName === 'A') {
-        slackLink = nextSibling.getAttribute('href');
-        console.log('Slack Link:', slackLink);
-        return slackLink;
-      }
-      nextSibling = nextSibling.nextElementSibling;
-    }
+{  return window.getSelection().anchorNode
+.parentElement
+.parentElement
+.parentElement
+.parentElement
+.parentElement
+.parentElement
+.parentElement
+.querySelector('a')
+.getAttribute('href')  }
 
-    if (parent) {
-      return findAnchorElement(parent);
-    }
-  }
-}
 
 /*  Shopify Blogs url (start)
 
