@@ -3,17 +3,23 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.6
+// @version     1.4.7
 // @author      Fernando Galvez-Luis
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant        GM_setClipboard
 // ==/UserScript==
 
-// Started project circa Nov/8/2023, 5:09:44 PM
+// Started project circa Nov/3/2023, 5:09:44 PM
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.4.6): Recognizes Mechant Frustration Number and Title
+//Latest version feature (version     1.4.7): Recognizes Slack conversations copying text from messages, at the moment it only returns a generic message "Slack conversation". 
+
+//Will be implmenting changes to set appropriate messages recognizing each channel and if it's a thread within the channel or a message in the main channel. 
+
+// Example for main channels message:     Slack #Support-SSA     || Example thread:     Slack #Support-SSA → Thread
+
+//Latest version feature (version     1.4.6): Recognizes and returns Mechant Frustration Number and Title
 
 //Previous version feature (version     1.4.5): Simplified code and instructions. Added option for Blogs pages and list of Blogs urls at bottom.
 
@@ -47,6 +53,20 @@ document.addEventListener('keydown', function(event) { //open evenListener code
     let Selected_Text = window.getSelection().toString();
 
     let fullFormat;
+
+    let slackLink = '';
+
+    // Check if the window object contains "https://app.slack.com/client/"
+    if (pageUrl.includes("https://app.slack.com/client/")) {
+      slackLink = findAnchorElement(window.getSelection().anchorNode.parentElement);
+    }
+
+
+    // 0 - Check for Slack conversations
+    if (slackLink) {  fullFormat = `${MD1}[Slack Conversation](${slackLink})${MD2}`;    }
+
+
+
 
 
     // 1 - Check for ZenDesk url and format: Ticket XXXXXX
@@ -314,6 +334,46 @@ function extractMerchantFrustrationTitle() {
     return titleElement.textContent.trim();
   }
   return null;
+}
+
+// Extract Slack URL
+function findAnchorElement(element) {
+  if (element.tagName === 'A') {
+    slackLink = element.getAttribute('href');
+    console.log('Slack Link:', slackLink);
+    return slackLink;
+  } else {
+    let sibling = element.previousElementSibling;
+    while (sibling) {
+      if (sibling.tagName === 'A') {
+        slackLink = sibling.getAttribute('href');
+        console.log('Slack Link:', slackLink);
+        return slackLink;
+      }
+      sibling = sibling.previousElementSibling;
+    }
+
+    const parent = element.parentElement;
+    if (parent && parent.tagName === 'A') {
+      slackLink = parent.getAttribute('href');
+      console.log('Slack Link:', slackLink);
+      return slackLink;
+    }
+
+    let nextSibling = element.nextElementSibling;
+    while (nextSibling) {
+      if (nextSibling.tagName === 'A') {
+        slackLink = nextSibling.getAttribute('href');
+        console.log('Slack Link:', slackLink);
+        return slackLink;
+      }
+      nextSibling = nextSibling.nextElementSibling;
+    }
+
+    if (parent) {
+      return findAnchorElement(parent);
+    }
+  }
 }
 
 /*  Shopify Blogs url (start)
