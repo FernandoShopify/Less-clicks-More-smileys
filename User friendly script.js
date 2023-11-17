@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.5
+// @version     1.4.6
 // @author      Fernando Galvez-Luis
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant        GM_setClipboard
@@ -13,7 +13,9 @@
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.4.5): Simplified code and instructions. Added option for Blogs pages and list of Blogs urls at bottom.
+//Latest version feature (version     1.4.6): Recognizes Mechant Frustration Number and Title
+
+//Previous version feature (version     1.4.5): Simplified code and instructions. Added option for Blogs pages and list of Blogs urls at bottom.
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before (MD1 will be the before) and after (MD2 will be the after) the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
@@ -93,7 +95,7 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     if (incidentNumber) {     const incidentTitle = extractIncidentTitle(pageUrl);
 
-      fullFormat = `${MD1}[Incident ${incidentNumber}: ${incidentTitle}](${pageUrl})${MD2}`;    }
+    fullFormat = `${MD1}[Incident ${incidentNumber}: ${incidentTitle}](${pageUrl})${MD2}`;    }
 
 
 
@@ -124,6 +126,12 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     if (pageUrl.includes("https://help.shopify.com/en/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_English}](${pageUrl})${MD2}`;   }
 
+    // Spanish - Check for Spanish Help Center Resource:
+
+    const HC_text_Spanish = " (clic aquí)"; // Here is the one I actually use, keep it, delete it or modify it, your call.
+
+    if (pageUrl.includes("https://help.shopify.com/es/")) {   fullFormat = `${MD1}[${Selected_Text} ${HC_text_Spanish}](${pageUrl})${MD2}`;   }
+
    // Optional: Add Help Center Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
 
@@ -146,13 +154,13 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
 
-   // Optional: Add Shopify Communities Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
+   // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
 
 
 
 
-    // 9 - Optional: Add Shopify Blogs Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
+    // 9 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
 
     /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
 
@@ -165,6 +173,18 @@ document.addEventListener('keydown', function(event) { //open evenListener code
     if (pageUrl.includes("https://community.shopify.com"))    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
 
    // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
+
+
+
+
+
+    // 10 Check for Merchant Frustration Number
+
+    const merchantFrustrationNumber = extractMerchantFrustrationNumber(pageUrl);
+
+    if (merchantFrustrationNumber) {    const merchantFrustrationTitle = extractMerchantFrustrationTitle();
+
+    fullFormat = `${MD1}[Merchant Frustration ${merchantFrustrationNumber}: ${merchantFrustrationTitle}](${pageUrl})${MD2}`;    }
 
 
 
@@ -270,6 +290,29 @@ function extractIdentityAccountNumber(url) {
     return match[1];
   }
 
+  return null;
+}
+
+// Extract Merchant Frustration Number
+
+function extractMerchantFrustrationNumber(url) {
+    var regex = /merchant-frustrations\.shopifycloud\.com.*\/features\/(\d+)/;
+    var match = url.match(regex);
+
+    if (match && match[1]) {
+        return match[1];
+    }
+
+    return null;
+}
+
+// Extract Merchant Frustration Title
+
+function extractMerchantFrustrationTitle() {
+  const titleElement = document.querySelector('h1.ui-title-bar__title');
+  if (titleElement) {
+    return titleElement.textContent.trim();
+  }
   return null;
 }
 
