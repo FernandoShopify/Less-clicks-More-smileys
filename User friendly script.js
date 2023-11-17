@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
 // @grant       none
-// @version     1.4.7
+// @version     1.4.8
 // @author      Fernando Galvez-Luis
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant        GM_setClipboard
@@ -13,9 +13,11 @@
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.4.7): Recognizes Slack conversations copying text from messages, at the moment it only returns a generic message "Slack conversation". 
+//Latest version feature (version     1.4.8): Added Shopify Communities entry titles, and changed default text of fullFormat for them.
 
-//Will be implmenting changes to set appropriate messages recognizing each channel and if it's a thread within the channel or a message in the main channel. 
+//Latest version feature (version     1.4.7): Recognizes Slack conversations copying text from messages, at the moment it only returns a generic message "Slack conversation".
+
+//Will be implmenting changes to set appropriate messages recognizing each channel and if it's a thread within the channel or a message in the main channel.
 
 // Example for main channels message:     Slack #Support-SSA     || Example thread:     Slack #Support-SSA → Thread
 
@@ -166,7 +168,9 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
     if (pageUrl.includes("https://community.shopify.com") && document.querySelector('button.header-country-select__trigger').textContent.trim() === "Español")
 
-    {  fullFormat = `${MD1}[${Selected_Text} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+    {  fullFormat = `${MD1}[Comunidad Shopify: ${getCommunityEntryTitle()} ${SC_text_Spanish}](${pageUrl})${MD2}`;  }
+
+    else if (pageUrl.includes("https://community.shopify.com")) {  fullFormat = `${MD1}[Shopify Community: ${getCommunityEntryTitle()}](${pageUrl})${MD2}`;  }
 
    // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
@@ -330,9 +334,15 @@ function extractMerchantFrustrationTitle() {
   return null;
 }
 
+// Extract Community entry title
+
+function getCommunityEntryTitle()
+
+{   return document.querySelector('head title').textContent.trim().replace(" - Shopify Community", "")   }
+
 // Extract Slack URL
 
-function getSlackConversationLink()
+function getSlackConversationLink() //Based on the structure of the messages within Slack
 
 {  return window.getSelection().anchorNode
 .parentElement
