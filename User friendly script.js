@@ -9,6 +9,7 @@
 // @author      Fernando Galvez-Luis (added code from Graham Connell to Hide Devtools)
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant       GM_setClipboard
+// @grant       GM_addStyle
 
 // ==/UserScript==
 
