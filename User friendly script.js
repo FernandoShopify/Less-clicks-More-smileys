@@ -2,16 +2,21 @@
 // @name        Copy and Modify URL 2
 // @namespace   Violentmonkey Scripts
 // @match       *://*/*
+// @include     https://admin.shopify.com/store/*
+// @include     https://*.myshopify.com/admin*
 // @grant       none
-// @version     1.4.8
-// @author      Fernando Galvez-Luis
+// @version     1.4.9
+// @author      Fernando Galvez-Luis (added code from Graham Connell to Hide Devtools)
 // @description Recognize most used urls to apply appropriate Markdown automatically
-// @grant        GM_setClipboard
+// @grant       GM_setClipboard
+
 // ==/UserScript==
 
 // Started project circa Nov/3/2023, 5:09:44 PM
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+//Latest version feature (version     1.4.9): Incorporated Graham Connel code to HideDevtools
 
 //Latest version feature (version     1.4.8): Added Shopify Communities entry titles, and changed default text of fullFormat for them.
 
@@ -208,6 +213,8 @@ document.addEventListener('keydown', function(event) { //open evenListener code
 
 
 
+
+
     // This is the default on any other site, it will apply only the format defined with MD1 and MD2, you can modify it to your needs/liking:
 
     if (typeof fullFormat === 'undefined') { fullFormat = `${MD1}[${Selected_Text}](${pageUrl})${MD2}`; }
@@ -354,6 +361,14 @@ function getSlackConversationLink() //Based on the structure of the messages wit
 .parentElement
 .querySelector('a')
 .getAttribute('href')  }
+
+
+
+
+    // Hide dev tools: This part was developed by Graham Connell, I just copy pasted this here to keep it all in one place.
+    //For more details see: https://app.getguru.com/card/irBKaLKT/Hiding-Shopify-tools-from-the-merchant-admin
+
+    GM_addStyle('.tCaSv, .vNwaY {height: 4.3em; overflow: hidden;} .tCaSv:hover, .vNwaY:hover {overflow: visible;}')
 
 
 /*  Shopify Blogs url (start)
