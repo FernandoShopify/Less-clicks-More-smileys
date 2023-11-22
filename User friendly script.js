@@ -17,7 +17,7 @@
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.5.0): Added a fix on previous @spy command feature, now the Guru can be found via filtering or searching from Guru tool
+//Latest version feature (version     1.5.1): Added a fix on previous @spy command feature, now the Guru can be found via filtering or searching from Guru tool
 
 //Latest version feature (version     1.5.0): Added funtionality: Generate full @spy commands within the own Guru Card: https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications
 
