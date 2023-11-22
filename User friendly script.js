@@ -5,7 +5,7 @@
 // @include     https://admin.shopify.com/store/*
 // @include     https://*.myshopify.com/admin*
 // @grant       none
-// @version     1.4.9
+// @version     1.5.0
 // @author      Fernando Galvez-Luis (added code from Graham Connell to Hide Devtools)
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant       GM_setClipboard
@@ -16,6 +16,8 @@
 // Started project circa Nov/3/2023, 5:09:44 PM
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+//Latest version feature (version     1.5.0): Added funtionality: Generate full @spy commands within the own Guru Card: https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications
 
 //Latest version feature (version     1.4.9): Incorporated Graham Connel code to HideDevtools
 
@@ -397,3 +399,100 @@ Japan url:                "https://www.shopify.com/jp/blog/"
 Chinese Simplified url:   "https://www.shopify.com/zh/blog/"
 
 Shopify Blogs url (end)  */
+
+//—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+//Check for Guru Card: Merchant/staff/customer not receiving Shopify emails or notifications
+
+// Add onsite command creation by getting Shop_Id and Email:
+
+if (window.location.href === 'https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications') {
+
+  function addRedRowToTable() {
+    const table = document.querySelector('.ghq-next-card-content__table');
+    if (table) {
+      const newRow = document.createElement('tr');
+      newRow.classList.add('ghq-next-card-content__tr');
+      newRow.style.backgroundColor = 'rgb(44, 130, 67)';
+
+      const cell = document.createElement('td');
+      cell.classList.add('ghq-next-card-content__td');
+      cell.colSpan = table.rows[0].cells.length;
+
+      const input1 = document.createElement('input');
+      input1.type = 'text';
+      input1.placeholder = 'Shop ID';
+      input1.style.marginRight = '50px'; // Add 50px of horizontal spacing
+
+      const input2 = document.createElement('input');
+      input2.type = 'text';
+      input2.placeholder = 'Email address';
+      input2.style.marginRight = '50px'; // Add 50px of horizontal spacing
+
+      const button = document.createElement('button');
+      button.textContent = 'Set Shop ID + Email for Spy Commands';
+      button.style.marginRight = '50px'; // Add 50px of horizontal spacing
+      button.addEventListener('click', function() {
+        const shopId = input1.value;
+        const email = input2.value;
+        const cells = document.querySelectorAll('.ghq-next-card-content__td');
+        cells.forEach(cell => {
+          cell.innerHTML = cell.innerHTML.replace(/shop_id/g, shopId).replace(/hi@example.com/g, email);
+        });
+
+        // Check if divs exist and remove them if they do
+        const divsToRemove = document.querySelectorAll('.ghq-next-card-content__code-block__block-menu');
+        if (divsToRemove.length > 0) {
+          divsToRemove.forEach(div => {
+            div.parentNode.removeChild(div);
+          });
+        }
+
+        // Call the function to add a "Copy" button to each span element
+        addCopyButtonToSpans();
+      });
+
+      cell.appendChild(input1);
+      cell.appendChild(input2);
+      cell.appendChild(button);
+
+      newRow.appendChild(cell);
+
+      const firstRow = table.querySelector('tbody tr:first-child');
+      table.querySelector('tbody').insertBefore(newRow, firstRow);
+    } else {
+      setTimeout(addRedRowToTable, 200); // Retry after 200 milliseconds
+    }
+  }
+
+  // Function to add a "Copy" button inside each span element
+  function addCopyButtonToSpans() {
+    const spans = document.querySelectorAll('.ghq-next-card-content__table span[data-slate-string="true"]');
+    spans.forEach(span => {
+      if (span.textContent.includes('@spy courier')) {
+        const button = document.createElement('button');
+        button.textContent = 'Copy';
+        button.addEventListener('click', function() {
+          const text = span.parentElement.textContent;
+          const modifiedText = text.replace(/Copy$|Copied!$/, ''); //Remove the word "Copy" or "Copied" from text
+          navigator.clipboard.writeText(modifiedText)
+            .then(() => {
+              console.log('Text copied to clipboard:', modifiedText);
+              button.textContent = 'Copied!';
+              setTimeout(() => {
+                button.textContent = 'Copy';
+              }, 2000); // Reset button text after 2 seconds
+            })
+            .catch(error => {
+              console.error('Error copying text to clipboard:', error);
+            });
+        });
+        span.insertAdjacentElement('afterend', button);
+      }
+    });
+  }
+
+  // Call the function to add a new red row to the table
+  addRedRowToTable();
+
+};
