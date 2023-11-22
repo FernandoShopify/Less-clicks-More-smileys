@@ -5,7 +5,7 @@
 // @include     https://admin.shopify.com/store/*
 // @include     https://*.myshopify.com/admin*
 // @grant       none
-// @version     1.5.0
+// @version     1.5.1
 // @author      Fernando Galvez-Luis (added code from Graham Connell to Hide Devtools)
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant       GM_setClipboard
@@ -16,6 +16,8 @@
 // Started project circa Nov/3/2023, 5:09:44 PM
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+//Latest version feature (version     1.5.0): Added a fix on previous @spy command feature, now the Guru can be found via filtering or searching from Guru tool
 
 //Latest version feature (version     1.5.0): Added funtionality: Generate full @spy commands within the own Guru Card: https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications
 
@@ -406,7 +408,7 @@ Shopify Blogs url (end)  */
 
 // Add onsite command creation by getting Shop_Id and Email:
 
-if (window.location.href === 'https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications') {
+ if (window.location.href.startsWith('https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications'))  {
 
   function addRedRowToTable() {
     const table = document.querySelector('.ghq-next-card-content__table');
