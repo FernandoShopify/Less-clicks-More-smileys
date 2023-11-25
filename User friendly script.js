@@ -5,7 +5,7 @@
 // @include     https://admin.shopify.com/store/*
 // @include     https://*.myshopify.com/admin*
 // @grant       none
-// @version     1.5.1
+// @version     1.5.2
 // @author      Fernando Galvez-Luis (added code from Graham Connell to Hide Devtools)
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant       GM_setClipboard
@@ -16,6 +16,8 @@
 // Started project circa Nov/3/2023, 5:09:44 PM
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+
+//Latest version feature (version     1.5.2): Added Find Invoice from Guru: Unknown Shopify Charge: https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge
 
 //Latest version feature (version     1.5.1): Added a fix on previous @spy command feature, now the Guru can be found via filtering or searching from Guru tool
 
@@ -54,6 +56,11 @@ document.addEventListener('keydown', function(event) { //open evenListener code
   const Key1 = event.ctrlKey;
 
   const Key2 = event.code === 'Space';
+/*
+const Key1 = event.shiftKey;
+const Key2 = event.code === 'Space';
+
+*/
 
 
   // Check if Key1 and Key2 are pressed simultaneously
@@ -498,3 +505,55 @@ Shopify Blogs url (end)  */
   addRedRowToTable();
 
 };
+
+// Find Invoice from Guru: Unknown Shopify Charge: https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge
+
+ if (window.location.href.startsWith('https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge')){
+
+    function findInvoice() {
+      const spanElements = document.querySelectorAll('span[data-slate-string="true"]');
+      spanElements.forEach(function(spanElement) {
+        if (spanElement.textContent.includes("If an invoice number has been provided, you can use the following link to locate the shop")) {
+          const modifiedText = 'If an invoice number has been provided, you can use the following link to locate the shop  ';
+          spanElement.innerHTML = modifiedText;
+          const spanToAppend = document.createElement('span');
+          spanToAppend.style.color = 'white';
+          spanToAppend.style.fontWeight = 'bold';
+          spanToAppend.style.backgroundColor = 'rgb(44, 130, 67)';
+          spanToAppend.style.paddingLeft = '10px';
+          spanToAppend.textContent = 'https://app.shopify.com/services/internal/invoices/   ';
+
+          const parentElement = spanElement.parentElement;
+          const textNode = document.createTextNode(modifiedText);
+          parentElement.replaceChild(textNode, spanElement);
+          parentElement.appendChild(spanToAppend);
+
+          const inputElement = document.createElement('input');
+          inputElement.id = 'invoiceNumberForSearch';
+          inputElement.type = 'text';
+          inputElement.placeholder = 'Invoice number';
+          inputElement.style.marginLeft = '2px';
+          inputElement.style.marginRight = '10px';
+          parentElement.appendChild(inputElement);
+        }
+      });
+
+      const aElements = document.querySelectorAll('a[href="https://app.shopify.com/services/internal/invoices"]');
+      aElements.forEach(function(aElement) {
+        if (aElement.textContent.includes("https://app.shopify.com/services/internal/invoices")) {
+          aElement.innerHTML = '';
+          const buttonElement = document.createElement('button');
+          buttonElement.textContent = 'Visit';
+          buttonElement.addEventListener('click', function() {
+            const inputValue = document.getElementById('invoiceNumberForSearch').value;
+            const modifiedHref = `https://app.shopify.com/services/internal/invoices/${inputValue}`;
+            aElement.href = modifiedHref;
+          });
+          aElement.appendChild(buttonElement);
+        }
+      });
+    }
+
+    setTimeout(findInvoice, 3000);
+
+}
