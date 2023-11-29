@@ -74,7 +74,7 @@ const Key2 = event.code === 'Space';
     let fullFormat;
 
 
-    // 0 - Check if it's a Slack Conversation
+    // 1 - Check if it's a Slack Conversation
 
     if (pageUrl.includes("https://app.slack.com/client/")) {   fullFormat = `${MD1}[Slack Conversation](${getSlackConversationLink()})${MD2}`;    }
 
@@ -82,7 +82,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 1 - Check for ZenDesk url and format: Ticket XXXXXX
+    // 2 - Check for ZenDesk url and format: Ticket XXXXXX
 
     const ticketNumber = extractTicketNumber(pageUrl);
 
@@ -92,7 +92,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    //2 - Check for Merchant Internal Dashboard - Shop ID  within url and format: Internal Dashboard XXXXXXX
+    //3 - Check for Merchant Internal Dashboard - Shop ID  within url and format: Internal Dashboard XXXXXXX
 
     const shopId = extractShopId(pageUrl);
 
@@ -102,7 +102,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 3 - Check for Invoice Number from : Merchant Internal → Invoice Number
+    // 4 - Check for Invoice Number from : Merchant Internal → Invoice Number
 
     const invoiceNumber = extractInvoiceNumber(pageUrl);
 
@@ -112,7 +112,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 4 - Check for Guru Card Titles
+    // 5 - Check for Guru Card Titles
 
     const guruTitle = extractGuruTitle(pageUrl);
 
@@ -122,7 +122,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 5 - Check for Incident Number and Title of Incident
+    // 6 - Check for Incident Number and Title of Incident
 
     const incidentNumber = extractIncidentNumber(pageUrl);
 
@@ -134,7 +134,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 6 - Check for Indentity Account Number
+    // 7 - Check for Indentity Account Number
 
     const account_Number = extractIdentityAccountNumber(pageUrl);
 
@@ -144,7 +144,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 7 - Optional: Add Help Center Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
+    // 8 - Optional: Add Help Center Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
     /* Some Merchants are not as tech savvy as you'd expect, sometimes it's worth adding some clafication like "click here".     If you'd like to add that to the Languages you support, copy /pase
      the code for that Language and modify it for your use case.
@@ -171,7 +171,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 8 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
+    // 9 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
 
     /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
 
@@ -189,13 +189,13 @@ const Key2 = event.code === 'Space';
 
     else if (pageUrl.includes("https://community.shopify.com")) {  fullFormat = `${MD1}[Shopify Community: ${getCommunityEntryTitle()}](${pageUrl})${MD2}`;  }
 
-   // Optional: Add Shopify Blogs Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
+   // Optional: Add Shopify Communities Languages resources ABOVE this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--------
 
 
 
 
 
-    // 9 - Optional: Add Shopify Communities Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
+    // 10 - Optional: Add Blog  Languages resources BELOW this line:—-------—-------—-------—-------—-------—-------—-------—-------—-------—--
 
     /* Same concept as of number 7, grab from below within this document whatever languages you support if you want Communities post with extra indications */
 
@@ -213,7 +213,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // 10 Check for Merchant Frustration Number
+    // 11 Check for Merchant Frustration Number
 
     const merchantFrustrationNumber = extractMerchantFrustrationNumber(pageUrl);
 
@@ -227,7 +227,7 @@ const Key2 = event.code === 'Space';
 
 
 
-    // This is the default on any other site, it will apply only the format defined with MD1 and MD2, you can modify it to your needs/liking:
+    // 12 This is the default on any other site, it will apply only the format defined with MD1 and MD2, you can modify it to your needs/liking:
 
     if (typeof fullFormat === 'undefined') { fullFormat = `${MD1}[${Selected_Text}](${pageUrl})${MD2}`; }
 
@@ -377,7 +377,7 @@ function getSlackConversationLink() //Based on the structure of the messages wit
 
 
 
-    // Hide dev tools: This part was developed by Graham Connell, I just copy pasted this here to keep it all in one place.
+    //13  Hide dev tools: This part was developed by Graham Connell, I just copy pasted this here to keep it all in one place.
     //For more details see: https://app.getguru.com/card/irBKaLKT/Hiding-Shopify-tools-from-the-merchant-admin
 
     GM_addStyle('.tCaSv, .vNwaY {height: 4.3em; overflow: hidden;} .tCaSv:hover, .vNwaY:hover {overflow: visible;}')
@@ -411,7 +411,7 @@ Shopify Blogs url (end)  */
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Check for Guru Card: Merchant/staff/customer not receiving Shopify emails or notifications
+//14 Check for Guru Card: Merchant/staff/customer not receiving Shopify emails or notifications
 
 // Add onsite command creation by getting Shop_Id and Email:
 
@@ -506,7 +506,7 @@ Shopify Blogs url (end)  */
 
 };
 
-// Find Invoice from Guru: Unknown Shopify Charge: https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge
+//15 Find Invoice from Guru: Unknown Shopify Charge: https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge
 
  if (window.location.href.startsWith('https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge')){
 
