@@ -5,7 +5,7 @@
 // @include     https://admin.shopify.com/store/*
 // @include     https://*.myshopify.com/admin*
 // @grant       none
-// @version     1.5.2
+// @version     1.5.3
 // @author      Fernando Galvez-Luis (added code from Graham Connell to Hide Devtools)
 // @description Recognize most used urls to apply appropriate Markdown automatically
 // @grant       GM_setClipboard
@@ -17,25 +17,9 @@
 
 //—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------—-------
 
-//Latest version feature (version     1.5.2): Added Find Invoice from Guru: Unknown Shopify Charge: https://app.getguru.com/card/LTgzzByT/Unknown-Shopify-Charge
+//Latest version feature (version     1.5.3): Udated hide dev tools as per: https://app.getguru.com/card/irBKaLKT/Hiding-Shopify-tools-from-the-merchant-admin?query=hide%20dev%20tools
 
-//Latest version feature (version     1.5.1): Added a fix on previous @spy command feature, now the Guru can be found via filtering or searching from Guru tool
 
-//Latest version feature (version     1.5.0): Added funtionality: Generate full @spy commands within the own Guru Card: https://app.getguru.com/card/inpxx8oT/Merchantstaffcustomer-not-receiving-Shopify-emails-or-notifications
-
-//Latest version feature (version     1.4.9): Incorporated Graham Connel code to HideDevtools
-
-//Latest version feature (version     1.4.8): Added Shopify Communities entry titles, and changed default text of fullFormat for them.
-
-//Latest version feature (version     1.4.7): Recognizes Slack conversations copying text from messages, at the moment it only returns a generic message "Slack conversation".
-
-//Will be implmenting changes to set appropriate messages recognizing each channel and if it's a thread within the channel or a message in the main channel.
-
-// Example for main channels message:     Slack #Support-SSA     || Example thread:     Slack #Support-SSA → Thread
-
-//Previous version feature (version     1.4.6): Recognizes and returns Mechant Frustration Number and Title
-
-//Previous version feature (version     1.4.5): Simplified code and instructions. Added option for Blogs pages and list of Blogs urls at bottom.
 
 //Define basic Markdown Before [](), write your markdown BETWEEN THE QUOTES, for example for bolded links we need ** before (MD1 will be the before) and after (MD2 will be the after) the Mardown as such: **[]()**
   //if you don't want anything leave the quotes empty such as: ""
@@ -380,7 +364,7 @@ function getSlackConversationLink() //Based on the structure of the messages wit
     //13  Hide dev tools: This part was developed by Graham Connell, I just copy pasted this here to keep it all in one place.
     //For more details see: https://app.getguru.com/card/irBKaLKT/Hiding-Shopify-tools-from-the-merchant-admin
 
-    GM_addStyle('.tCaSv, .vNwaY {height: 4.3em; overflow: hidden;} .tCaSv:hover, .vNwaY:hover {overflow: visible;}')
+    GM_addStyle('[class*="StickyBottomNav"], .vNwaY {height: 4.3em; overflow: hidden;} [class*="StickyBottomNav"]:hover, .vNwaY:hover {overflow: visible;}');
 
 
 /*  Shopify Blogs url (start)
